@@ -4,6 +4,13 @@ mkdir -p "$HOME/.local/share/wineprefixes/"
 export WINEPREFIX="$HOME/.local/share/wineprefixes/osu"
 export WINEDEBUG=-all
 export PULSE_LATENCY_MSEC=22
+export WINE="/opt/osu/lutris-osu/bin/wine"
+# defualt values incase osu.env is messed up - should be fine for most computers
+export STAGING_AUDIO_DURATION=150000
+export STAGING_AUDIO_PERIOD=50000
+
+source /etc/osu.env
+
 
 function doinstall {
     echo "Installing osu!"
@@ -45,7 +52,7 @@ function doinstall {
     echo ".NET 4.5 installed successfully!"
     echo
     echo "Applying some settings..."
-    winetricks ddr=opengl fontsmooth=rgb sound=alsa strictdrawordering=enabled
+    winetricks ddr=opengl fontsmooth=rgb sound=pulse strictdrawordering=enabled
     regedit /opt/osu/directsound-latency.reg
     echo "All done! Running osu! updater..."
     sleep 1
@@ -115,4 +122,4 @@ then
     exit 0
 fi
 
-vblank_mode=0 __GL_SYNC_TO_VBLANK=0 exec wine "$WINEPREFIX/drive_c/users/$USER/Local Settings/Application Data/osu!/osu!.exe" $@
+vblank_mode=0 __GL_SYNC_TO_VBLANK=0 exec $WINE "$WINEPREFIX/drive_c/users/$USER/Local Settings/Application Data/osu!/osu!.exe" $@
