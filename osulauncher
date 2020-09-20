@@ -101,12 +101,12 @@ case "$1" in
  ;;
 
 "winecfg")
- winecfg
+ /opt/osu/lutris-osu/bin/winecfg
  exit 0
  ;;
 
 "regedit")
- regedit
+ /opt/osu/lutris-osu/bin/regedit
  exit 0
  ;;
 
@@ -122,4 +122,6 @@ then
     exit 0
 fi
 
-vblank_mode=0 __GL_SYNC_TO_VBLANK=0 exec $WINE "$WINEPREFIX/drive_c/users/$USER/Local Settings/Application Data/osu!/osu!.exe" $@
+killall picom
+vblank_mode=0 __GL_SYNC_TO_VBLANK=0 $WINE "$WINEPREFIX/drive_c/users/$USER/Local Settings/Application Data/osu!/osu!.exe" $@
+i3-msg exec picom
