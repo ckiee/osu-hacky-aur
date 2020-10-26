@@ -5,9 +5,10 @@ export WINEPREFIX="$HOME/.local/share/wineprefixes/osu"
 export WINEDEBUG=-all
 export PULSE_LATENCY_MSEC=22
 export WINE="/opt/osu/lutris-osu/bin/wine"
-# defualt values incase osu.env is messed up - should be fine for most computers
+# default values incase osu.env is messed up - should be fine for most computers
 export STAGING_AUDIO_DURATION=150000
 export STAGING_AUDIO_PERIOD=50000
+export ENABLE_DISCORD_RPC=true
 
 source /etc/osu.env
 
@@ -123,5 +124,9 @@ then
 fi
 
 killall picom
+if [[ "$ENABLE_DISCORD_RPC" == "true" ]]; then
+	$WINE "/opt/osu/winediscordipcbridge.exe" &
+	sleep 2
+fi
 vblank_mode=0 __GL_SYNC_TO_VBLANK=0 $WINE "$WINEPREFIX/drive_c/users/$USER/Local Settings/Application Data/osu!/osu!.exe" $@
 i3-msg exec picom
